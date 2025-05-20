@@ -1,0 +1,8 @@
+Name: John Doe  
+Email: john.doe@example.com  
+Backup: johndoe123@outlook.net  
+Phone: +966551234789  
+Alt Phone: 0556783210  
+Notes: He works at Example.com since 2021.
+
+Contact: sara_test@domain.co.uk

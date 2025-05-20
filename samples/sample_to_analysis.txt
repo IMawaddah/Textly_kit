@@ -1,0 +1,7 @@
+This is a test file for basic text analysis.
+
+It contains a few lines, and each line has some words.
+
+You can use this file to count how many words are here,
+how many lines it contains,
+and how often a certain word appears.
