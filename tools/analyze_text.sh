@@ -1,6 +1,6 @@
-#!/bin/bash  # Tell the system to use Bash to interpret this script
+#!/bin/bash  # Tell the system to execute this script with Bash
 
-filename=$1  # Get the filename from the first command-line argument
+filename=$1  # Get the first argument (the file path)
 
 # Check if the file exists, otherwise show an error and exit
 if [[ ! -f "$filename" ]]; then
@@ -8,53 +8,54 @@ if [[ ! -f "$filename" ]]; then
     exit 1
 fi
 
-# Infinite loop to keep showing the cleaning menu until the user exits
+# Start an infinite loop to keep showing the menu until the user exits
 while true; do
-    clear  # Clear the terminal screen for cleaner output
 
-    # Display the text cleaning menu
-    echo "🧹 Text Cleaning Menu"
+    # Display the text analysis menu
+    echo "📝 Text Analysis Menu"
     echo "=============================="
-    echo "1️⃣  Remove Special Characters   ❎"
-    echo "2️⃣  Remove Empty Lines          📄🚫"
-    echo "3️⃣  Convert to Lowercase        🔡"
-    echo "4️⃣  Exit                        🚪"
+    echo "1️⃣  Word Count              🧮"
+    echo "2️⃣  Count Specific Word     🔍"
+    echo "3️⃣  Line Count              📏"
+    echo "4️⃣  Exit                    🚪"
     echo "=============================="
 
-    # Prompt the user for a choice
-    read -p "👉 Choose an option (1-4): " choice
+    # Prompt the user to choose an option
+    read -p "👉 Select an option (1-4): " CHOICE
 
-    # Handle the user's choice
-    case $choice in
+    case $CHOICE in
         1)
-            # Remove all characters except letters, numbers, and spaces
-            sed -i 's/[^a-zA-Z0-9 ]//g' "$filename"
-            echo "✅ Special characters removed from the file."
+            # Option 1: Count the total number of words in the file
+            echo "🧮 Total Word Count:"
+            wc -w < "$filename"
+            echo "------------------------------"
             read -p "🔁 Press Enter to return to the menu..." dummy
             ;;
+
         2)
-            # Delete all empty lines or lines that contain only spaces/tabs
-            sed -i '/^[[:space:]]*$/d' "$filename"
-            echo "✅ Empty lines removed from the file."
+            # Option 2: Ask the user to enter a word to search for
+            read -p "🔍 Enter the word to search for: " WORD
+            COUNT=$(grep -o -i "\\b$WORD\\b" "$filename" | wc -l)  # Case-insensitive match
+            echo "📌 The word '$WORD' occurred $COUNT times."
+            echo "------------------------------"
             read -p "🔁 Press Enter to return to the menu..." dummy
             ;;
         3)
-            # Convert all uppercase letters to lowercase
-            tr '[:upper:]' '[:lower:]' < "$filename" > temp && mv temp "$filename"
-            echo "✅ All text converted to lowercase."
+            # Option 3: Count number of lines in the file
+            echo "📏 Total Line Count:"
+            wc -l < "$filename"
+            echo "------------------------------"
             read -p "🔁 Press Enter to return to the menu..." dummy
             ;;
         4)
-            # Exit the script with a goodbye message
-            echo "👋 Exiting Text Cleaning Tool. Goodbye!"
+            # Option 4: Exit the script
+            echo "👋 Exiting Text Analysis. Goodbye!"
             break
             ;;
         *)
             # Handle invalid input
-            echo "⚠️ Invalid option. Please choose a number between 1 and 4."
+            echo "⚠️ Invalid option. Please enter a number between 1 and 5."
             read -p "🔁 Press Enter to try again..." dummy
             ;;
     esac
-
-    echo ""  # Add a blank line for spacing
 done
